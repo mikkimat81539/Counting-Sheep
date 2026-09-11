@@ -35,10 +35,12 @@ void sheep_draw(SHEEP &name, float x, float y, Color color){
 
 float sheep_mvmt(SHEEP &object, float dt){
 	object.velocity = 70;
-	
-	STATE pick = STATE((rand() % 2) + 1);
 
-	if (pick == RIGHT){
+	object.position.x += object.velocity * dt;
+
+	// STATE pick = STATE((rand() % 2) + 1);
+
+	/*if (pick == RIGHT){
 		object.position.x += object.velocity * dt;
 		object.state = pick;
 		return object.state;
@@ -49,7 +51,7 @@ float sheep_mvmt(SHEEP &object, float dt){
 		object.position.x -= object.velocity * dt;
 		object.state = pick;
 		return object.state;
-	}
+	}*/
 
 	return object.position.x;
 
@@ -85,7 +87,7 @@ int main(){
 		sheep_counter++; // increment counter
 		
 		if (sheep_counter >= 120 && sheep1.state == IDLE){
-			sheep1.state = rand_state;
+			sheep1.state = RIGHT;
 		}
 
 		else if (sheep1.state != IDLE){
