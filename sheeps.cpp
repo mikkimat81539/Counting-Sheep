@@ -7,6 +7,7 @@ using namespace std;
 
 # define SCREEN_WIDTH 800
 # define SCREEN_HEIGHT 600
+# define FPS 60
 
 # define print(x) cout << x << endl;
 
@@ -21,6 +22,7 @@ struct SHEEP {
 	Vector2 position;
 	Color color;
 	STATE state;
+	float velocity = 5
 };
 
 void sheep_draw(SHEEP &name, float x, float y, Color color){
@@ -29,10 +31,15 @@ void sheep_draw(SHEEP &name, float x, float y, Color color){
 	name.color = color;
 }
 
+void sheep_mvmt(){
+
+}
+
 int main(){
 	// SETUP
 	InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Sheeps");	
 
+	// Define Sheeps
 	SHEEP sheep1;
 	SHEEP sheep2;
 
@@ -41,8 +48,14 @@ int main(){
 
 	vector<SHEEP> sheep_pen = {sheep1, sheep2};
 
+	// FPS
+	SetTargetFPS(FPS);
+
 	// GAME LOOP
 	while(!WindowShouldClose()){
+		// Delta Time
+		float dt = GetFrameTime();
+
 
 		// DRAW
 		BeginDrawing();
