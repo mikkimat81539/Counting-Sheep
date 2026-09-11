@@ -33,29 +33,6 @@ void sheep_draw(SHEEP &name, float x, float y, Color color){
 	name.color = color;
 }
 
-float sheep_mvmt(SHEEP &object, float dt){
-	object.velocity = 70;
-
-	object.position.x += object.velocity * dt;
-
-	// STATE pick = STATE((rand() % 2) + 1);
-
-	/*if (pick == RIGHT){
-		object.position.x += object.velocity * dt;
-		object.state = pick;
-		return object.state;
-	}
-
-
-	else if (pick == LEFT){
-		object.position.x -= object.velocity * dt;
-		object.state = pick;
-		return object.state;
-	}*/
-
-	return object.position.x;
-
-}
 
 int main(){
 	// SETUP
@@ -71,10 +48,13 @@ int main(){
 	sheep1.state = IDLE;
 
 	int sheep_counter = 0; // this allows me to start and stop movement of sheep
-	
+
+	sheep1.velocity = 50;
+
 	srand(time(0)); // use current time as seed for random generator
 
 	STATE rand_state = STATE((rand() % 2) + 1);
+	print(rand_state)
 
 	// FPS
 	SetTargetFPS(FPS); // 60 Frames every second
@@ -87,15 +67,28 @@ int main(){
 		sheep_counter++; // increment counter
 		
 		if (sheep_counter >= 120 && sheep1.state == IDLE){
-			sheep1.state = RIGHT;
+			sheep1.state = rand_state;
 		}
 
 		else if (sheep1.state != IDLE){
-			sheep_mvmt(sheep1, dt);
-		
+			if (sheep1.state == RIGHT){
+				sheep1.position.x += sheep1.velocity * dt;
+			}
+
+
+			else if (sheep1.state == LEFT){
+				sheep1.position.x -= sheep1.velocity * dt;
+			}
+
+
 			if (sheep_counter == 240){
 				sheep1.state = IDLE;
 				sheep_counter = 0;
+				STATE* ptr = &rand_state;
+
+				*ptr = STATE((rand() % 2) + 1);
+				print("\n\nTHE POINTER")
+				print(*ptr)
 			}
 		}
 
