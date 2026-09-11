@@ -23,7 +23,7 @@ struct SHEEP {
 	Rectangle rect;
 	Vector2 position;
 	Color color;
-	STATE state;
+	STATE state = IDLE;
 	float velocity;
 };
 
@@ -33,6 +33,46 @@ void sheep_draw(SHEEP &name, float x, float y, Color color){
 	name.color = color;
 }
 
+
+void sheep_mvmt(SHEEP &sheep, int &counter, STATE &rand_state, float dt){
+	counter++; // increment counter
+
+	if (counter >= 120 && sheep.state == IDLE){
+		sheep.state = rand_state;
+	}
+
+	else if (sheep.state != IDLE){
+		if (sheep.state == RIGHT){
+			sheep.position.x += sheep.velocity * dt;
+
+			if (sheep.position.x > SCREEN_WIDTH - sheep.rect.width){
+				sheep.state = LEFT;
+			}
+		}
+
+		else if (sheep.state == LEFT){
+			sheep.position.x -= sheep.velocity * dt;
+
+			if (sheep.position.x < 0 + sheep.rect.width){
+				sheep.state = RIGHT;
+			}
+		}
+
+
+		if (counter == 240){
+			sheep.state = IDLE;
+			counter = 0;
+			STATE* ptr = &rand_state; // pointer for rand_state
+
+			*ptr = STATE((rand() % 2) + 1); // redine the rand_state that I am reference
+			//print("\n\nTHE POINTER")
+			//print(*ptr)
+		}
+	}
+
+	sheep.velocity = 50;
+
+}
 
 int main(){
 	// SETUP
@@ -45,16 +85,12 @@ int main(){
 	sheep_draw(sheep1, 300, 500, WHITE);
 	sheep_draw(sheep2, 70, 500, GRAY);
 
-	sheep1.state = IDLE;
-
 	int sheep_counter = 0; // this allows me to start and stop movement of sheep
-
-	sheep1.velocity = 50;
 
 	srand(time(0)); // use current time as seed for random generator
 
-	STATE rand_state = STATE((rand() % 2) + 1);
-	print(rand_state)
+	STATE rand_state = STATE((rand() % 2) + 1); // grab random state for sheep
+	// print(rand_state)
 
 	// FPS
 	SetTargetFPS(FPS); // 60 Frames every second
@@ -64,7 +100,13 @@ int main(){
 		// Delta Time
 		float dt = GetFrameTime();
 
-		sheep_counter++; // increment counter
+		// Vector contain all sheeps
+		vector<SHEEP> sheep_pen = {sheep1, sheep2};
+
+		sheep_mvmt(sheep1, sheep_counter, rand_state, dt);
+
+
+		/*sheep_counter++; // increment counter
 		
 		if (sheep_counter >= 120 && sheep1.state == IDLE){
 			sheep1.state = rand_state;
@@ -74,16 +116,15 @@ int main(){
 			if (sheep1.state == RIGHT){
 				sheep1.position.x += sheep1.velocity * dt;
 
-				if (sheep1.position.x >= SCREEN_WIDTH - sheep1.rect.width){
+				if (sheep1.position.x > SCREEN_WIDTH - sheep1.rect.width){
 					sheep1.state = LEFT;
 				}
 			}
 
-
 			else if (sheep1.state == LEFT){
 				sheep1.position.x -= sheep1.velocity * dt;
 
-				if (sheep1.position.x <= 0 + sheep1.rect.width){
+				if (sheep1.position.x < 0 + sheep1.rect.width){
 					sheep1.state = RIGHT;
 				}
 			}
@@ -92,15 +133,14 @@ int main(){
 			if (sheep_counter == 240){
 				sheep1.state = IDLE;
 				sheep_counter = 0;
-				STATE* ptr = &rand_state;
+				STATE* ptr = &rand_state; // pointer for rand_state
 
-				*ptr = STATE((rand() % 2) + 1);
-				print("\n\nTHE POINTER")
-				print(*ptr)
+				*ptr = STATE((rand() % 2) + 1); // redine the rand_state that I am reference
+				//print("\n\nTHE POINTER")
+				//print(*ptr)
 			}
-		}
+		}*/
 
-		vector<SHEEP> sheep_pen = {sheep1, sheep2};
 
 
 		// DRAW
