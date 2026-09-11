@@ -1,4 +1,4 @@
-# The-Shepards-Dog
+# The Shepards Dog
 - This is a game I made for a 72 hour game jam where the theme is <h3>Nocturne</h3> and the limitation is <h3>Your score serves a purpose</h3>.
 
 <h2><i>The Story<i></h2>
