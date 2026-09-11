@@ -22,7 +22,7 @@ struct SHEEP {
 	Vector2 position;
 	Color color;
 	STATE state;
-	float velocity = 5
+	float velocity;
 };
 
 void sheep_draw(SHEEP &name, float x, float y, Color color){
@@ -31,8 +31,11 @@ void sheep_draw(SHEEP &name, float x, float y, Color color){
 	name.color = color;
 }
 
-void sheep_mvmt(){
+float sheep_mvmt(SHEEP &object, float dt){
+	object.velocity = 100;
+	object.position.x += object.velocity * dt; 
 
+	return object.position.x;
 }
 
 int main(){
@@ -46,7 +49,11 @@ int main(){
 	sheep_draw(sheep1, 300, 500, WHITE);
 	sheep_draw(sheep2, 70, 500, GRAY);
 
-	vector<SHEEP> sheep_pen = {sheep1, sheep2};
+
+	sheep1.state = IDLE;
+	sheep2.state = IDLE;
+
+	// vector<SHEEP> sheep_pen = {sheep1, sheep2};
 
 	// FPS
 	SetTargetFPS(FPS);
@@ -56,6 +63,11 @@ int main(){
 		// Delta Time
 		float dt = GetFrameTime();
 
+		// sheep movement
+		sheep_mvmt(sheep1, dt);
+		// print(sheep1.position.x);
+		
+		vector<SHEEP> sheep_pen = {sheep1, sheep2};
 
 		// DRAW
 		BeginDrawing();
