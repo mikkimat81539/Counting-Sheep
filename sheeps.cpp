@@ -73,11 +73,19 @@ int main(){
 		else if (sheep1.state != IDLE){
 			if (sheep1.state == RIGHT){
 				sheep1.position.x += sheep1.velocity * dt;
+
+				if (sheep1.position.x >= SCREEN_WIDTH - sheep1.rect.width){
+					sheep1.state = LEFT;
+				}
 			}
 
 
 			else if (sheep1.state == LEFT){
 				sheep1.position.x -= sheep1.velocity * dt;
+
+				if (sheep1.position.x <= 0 + sheep1.rect.width){
+					sheep1.state = RIGHT;
+				}
 			}
 
 
