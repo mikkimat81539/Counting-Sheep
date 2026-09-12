@@ -3,3 +3,6 @@
 
 # ignore .DS_STORE
 .DS_STORE
+
+# ignore
+*.dSYM/
