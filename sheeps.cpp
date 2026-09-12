@@ -2,6 +2,7 @@
 # include <vector>
 # include <cstdlib>
 # include <ctime>
+# include <thread>
 
 # include "raylib.h"
 
@@ -25,6 +26,9 @@ struct SHEEP {
 	Color color;
 	STATE state = IDLE;
 	float velocity;
+	int counter = 0; // this allows me to start and stop movement of sheep
+	STATE rand_state =  STATE((rand() % 2) + 1); // grab random state for sheep
+
 };
 
 void sheep_draw(SHEEP &name, float x, float y, Color color){
@@ -34,11 +38,11 @@ void sheep_draw(SHEEP &name, float x, float y, Color color){
 }
 
 
-void sheep_mvmt(SHEEP &sheep, int &counter, STATE &rand_state, float dt){
-	counter++; // increment counter
+void sheep_mvmt(SHEEP &sheep, float dt){
+	sheep.counter++; // increment counter
 
-	if (counter >= 120 && sheep.state == IDLE){
-		sheep.state = rand_state;
+	if (sheep.counter >= 120 && sheep.state == IDLE){
+		sheep.state = sheep.rand_state;
 	}
 
 	else if (sheep.state != IDLE){
@@ -59,10 +63,10 @@ void sheep_mvmt(SHEEP &sheep, int &counter, STATE &rand_state, float dt){
 		}
 
 
-		if (counter == 240){
+		if (sheep.counter == 240){
 			sheep.state = IDLE;
-			counter = 0;
-			STATE* ptr = &rand_state; // pointer for rand_state
+			sheep.counter = 0;
+			STATE* ptr = &sheep.rand_state; // pointer for rand_state
 
 			*ptr = STATE((rand() % 2) + 1); // redine the rand_state that I am reference
 			//print("\n\nTHE POINTER")
@@ -85,12 +89,11 @@ int main(){
 	sheep_draw(sheep1, 300, 500, WHITE);
 	sheep_draw(sheep2, 70, 500, GRAY);
 
-	int sheep_counter = 0; // this allows me to start and stop movement of sheep
+	//int sheep_counter = 0; // this allows me to start and stop movement of sheep
 
 	srand(time(0)); // use current time as seed for random generator
 
-	STATE rand_state = STATE((rand() % 2) + 1); // grab random state for sheep
-	// print(rand_state)
+	// STATE rand_state = STATE((rand() % 2) + 1); // grab random state for sheep
 
 	// FPS
 	SetTargetFPS(FPS); // 60 Frames every second
@@ -100,10 +103,12 @@ int main(){
 		// Delta Time
 		float dt = GetFrameTime();
 
-		// Vector contain all sheeps
-		vector<SHEEP> sheep_pen = {sheep1, sheep2};
 
-		sheep_mvmt(sheep1, sheep_counter, rand_state, dt);
+		std::thread t1(sheep_mvmt, std::ref(sheep1), dt);
+		std::thread t2(sheep_mvmt, std::ref(sheep2), dt);
+
+		t1.join();
+		t2.join();
 
 
 		/*sheep_counter++; // increment counter
@@ -142,6 +147,8 @@ int main(){
 		}*/
 
 
+
+		vector<SHEEP> sheep_pen = {sheep1, sheep2};
 
 		// DRAW
 		BeginDrawing();
