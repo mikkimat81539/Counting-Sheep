@@ -8,8 +8,8 @@
 
 using namespace std;
 
-# define SCREEN_WIDTH 800
-# define SCREEN_HEIGHT 600
+# define SCREEN_WIDTH 300
+# define SCREEN_HEIGHT 150
 # define FPS 60
 
 # define print(x) cout << x << endl;
@@ -80,14 +80,14 @@ void sheep_mvmt(SHEEP &sheep, float dt){
 
 int main(){
 	// SETUP
-	InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Sheeps");	
+	InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Sheeps (Mechanics)");	
 
 	// Define Sheeps
 	SHEEP sheep1;
 	SHEEP sheep2;
 
-	sheep_draw(sheep1, 300, 500, WHITE);
-	sheep_draw(sheep2, 70, 500, GRAY);
+	sheep_draw(sheep1, 70, 70, WHITE);
+	sheep_draw(sheep2, 20, 70, GRAY);
 
 	//int sheep_counter = 0; // this allows me to start and stop movement of sheep
 

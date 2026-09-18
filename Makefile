@@ -1,8 +1,8 @@
-opponents:
-	g++ -g opponents.cpp $$(pkg-config --libs --cflags raylib) -o opponents
+sheep2:
+	g++ -g sheep2.cpp $$(pkg-config --libs --cflags raylib) -o sheep2
 
-sheep:
-	g++ -g sheeps.cpp $$(pkg-config --libs --cflags raylib) -o sheeps
+sheep1:
+	g++ -g sheep1.cpp $$(pkg-config --libs --cflags raylib) -o sheep1
 
 clean:
-	rm -f opponents
+	rm -f sheep2
