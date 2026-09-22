@@ -1,4 +1,5 @@
 # include <iostream>
+# include <vector>
 
 # include "raylib.h"
 
@@ -10,18 +11,79 @@ using namespace std;
 
 # define print(x) cout << x << endl;
 
+
+enum BTN {
+	OFF,
+	ON
+};
+
+struct SHEEP{
+	float x;
+	float y;
+	float width;
+	float height;
+	float velocity;
+	BTN button = OFF;
+};
+
+void sheep_mvmt(SHEEP& sheep, float dt) {
+	sheep.velocity = 250;
+	sheep.x -= sheep.velocity * dt;
+}
+
+
 int main(){
 	// SETUP
 	InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Counting Sheep");
 
+	SHEEP sheep;
+	sheep.x = 505;
+	sheep.y = 250;
+	sheep.width = 30;
+	sheep.height = 30;
+
 
 	// GAME LOOP
 	while(!WindowShouldClose()){
+		float dt = GetFrameTime();
 
+		vector <SHEEP> sheep_pen = {};
+
+		if (IsKeyPressed(KEY_ENTER)){
+			sheep.button = ON;
+		}
+
+
+		if (sheep.button == ON){
+			sheep_pen.push_back({sheep.x, sheep.y, sheep.width, sheep.height});
+			//sheep_mvmt(sheep, dt);
+
+			for (int i=0; i < sheep_pen.size(); i++){
+				// Rectangle sheep_rect = {sheep_pen[i].x, sheep_pen[i].y, sheep_pen[i].width, sheep_pen[i].height};
+				// sheep_mvmt(sheep_pen[i], dt);
+
+				if (sheep_pen[i].x < 0){
+					sheep_pen.erase(sheep_pen.begin() + i);
+					sheep.button = OFF;
+				}
+
+				print(sheep_pen[i].x)
+			}
+
+			sheep_mvmt(sheep, dt);
+
+		}
 
 		// DRAW
 		BeginDrawing();
 		ClearBackground(Color {0,0,67});
+
+
+		if (sheep.button == ON){
+			for (int i=0; i < sheep_pen.size(); i++){
+				DrawRectangle(sheep_pen[i].x, sheep_pen[i].y, sheep_pen[i].width, sheep_pen[i].height, WHITE);
+			}
+		}
 
 		EndDrawing();
 	}	
