@@ -4,15 +4,15 @@
 
 using namespace std;
 
-# define SCREEN_WIDTH 800
-# define SCREEN_HEIGHT 600
+# define SCREEN_WIDTH 350
+# define SCREEN_HEIGHT 500
 # define FPS 60
 
 # define print(x) cout << x << endl;
 
 int main(){
 	// SETUP
-	InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Opponents");
+	InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Counting Sheep");
 
 
 	// GAME LOOP
@@ -21,7 +21,7 @@ int main(){
 
 		// DRAW
 		BeginDrawing();
-		ClearBackground(RAYWHITE);
+		ClearBackground(Color {0,0,67});
 
 		EndDrawing();
 	}	
