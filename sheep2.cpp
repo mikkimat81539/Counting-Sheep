@@ -45,6 +45,7 @@ int main(){
 
 	int sheep_counter = 0;
 
+
 	vector <SHEEP> sheep_pen = {};
 
 
@@ -55,13 +56,10 @@ int main(){
 		if (IsKeyPressed(KEY_ENTER)){
 			sheep_pen.push_back({sheep.x, sheep.y, sheep.width, sheep.height});
 
-			//sheep.button = ON;
 			sheep_counter++;
 
 		}
 
-
-		print(sheep_pen.size())
 
 
 		for (int i=0; i < sheep_pen.size(); i++){
@@ -70,16 +68,12 @@ int main(){
 
 			if (sheep_pen[i].x < 0){
 				sheep_pen.erase(sheep_pen.begin() + i);
-				// sheep.button = OFF;
-				// sheep.x = 505;
 				i--;
 			}
 
 		}
 
 			
-		// print(sheep_counter)
-
 		// DRAW
 		BeginDrawing();
 		ClearBackground(Color {0,0,67});
@@ -88,6 +82,8 @@ int main(){
 		for (int i=0; i < sheep_pen.size(); i++){
 			DrawRectangle(sheep_pen[i].x, sheep_pen[i].y, sheep_pen[i].width, sheep_pen[i].height, WHITE);
 		}
+
+		DrawText(TextFormat("%d", sheep_counter), 165, 50, 50, WHITE);
 
 		EndDrawing();
 	}	
