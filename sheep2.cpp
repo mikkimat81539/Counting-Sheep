@@ -23,11 +23,11 @@ struct SHEEP{
 	float width;
 	float height;
 	float velocity;
-	BTN button = OFF;
+	BTN button;
 };
 
 void sheep_mvmt(SHEEP& sheep, float dt) {
-	sheep.velocity = 250;
+	sheep.velocity = 200;
 	sheep.x -= sheep.velocity * dt;
 }
 
@@ -43,46 +43,50 @@ int main(){
 	sheep.height = 30;
 
 
+	int sheep_counter = 0;
+
+	vector <SHEEP> sheep_pen = {};
+
+
 	// GAME LOOP
 	while(!WindowShouldClose()){
 		float dt = GetFrameTime();
-
-		vector <SHEEP> sheep_pen = {};
-
+		
 		if (IsKeyPressed(KEY_ENTER)){
-			sheep.button = ON;
+			sheep_pen.push_back({sheep.x, sheep.y, sheep.width, sheep.height});
+
+			//sheep.button = ON;
+			sheep_counter++;
+
 		}
 
 
-		if (sheep.button == ON){
-			sheep_pen.push_back({sheep.x, sheep.y, sheep.width, sheep.height});
-			//sheep_mvmt(sheep, dt);
+		print(sheep_pen.size())
 
-			for (int i=0; i < sheep_pen.size(); i++){
-				// Rectangle sheep_rect = {sheep_pen[i].x, sheep_pen[i].y, sheep_pen[i].width, sheep_pen[i].height};
-				// sheep_mvmt(sheep_pen[i], dt);
 
-				if (sheep_pen[i].x < 0){
-					sheep_pen.erase(sheep_pen.begin() + i);
-					sheep.button = OFF;
-				}
+		for (int i=0; i < sheep_pen.size(); i++){
+			sheep_mvmt(sheep_pen[i], dt);
 
-				print(sheep_pen[i].x)
+
+			if (sheep_pen[i].x < 0){
+				sheep_pen.erase(sheep_pen.begin() + i);
+				// sheep.button = OFF;
+				// sheep.x = 505;
+				i--;
 			}
 
-			sheep_mvmt(sheep, dt);
-
 		}
+
+			
+		// print(sheep_counter)
 
 		// DRAW
 		BeginDrawing();
 		ClearBackground(Color {0,0,67});
 
 
-		if (sheep.button == ON){
-			for (int i=0; i < sheep_pen.size(); i++){
-				DrawRectangle(sheep_pen[i].x, sheep_pen[i].y, sheep_pen[i].width, sheep_pen[i].height, WHITE);
-			}
+		for (int i=0; i < sheep_pen.size(); i++){
+			DrawRectangle(sheep_pen[i].x, sheep_pen[i].y, sheep_pen[i].width, sheep_pen[i].height, WHITE);
 		}
 
 		EndDrawing();
